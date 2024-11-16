@@ -7,8 +7,9 @@ from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-
 # Вью для собак
+
+
 class DogList(APIView):
     """
     get:
@@ -22,7 +23,7 @@ class DogList(APIView):
         operation_description="Получить список всех собак",
         responses={200: DogSerializer(many=True)}
     )
-    def get(self, request):
+    def get(self, request) -> Response:
         dogs = Dog.objects.all()
         serializer = DogSerializer(dogs, many=True)
         return Response(serializer.data)
@@ -32,7 +33,7 @@ class DogList(APIView):
         request_body=DogSerializer,
         responses={201: DogSerializer}
     )
-    def post(self, request):
+    def post(self, request) -> Response:
         serializer = DogSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -56,7 +57,7 @@ class DogDetail(APIView):
         operation_description="Получить собаку по ID",
         responses={200: DogSerializer}
     )
-    def get(self, request, id):
+    def get(self, request, id) -> Response:
         dog = get_object_or_404(Dog, id=id)
         serializer = DogSerializer(dog)
         return Response(serializer.data)
@@ -66,7 +67,7 @@ class DogDetail(APIView):
         request_body=DogSerializer,
         responses={200: DogSerializer}
     )
-    def put(self, request, id):
+    def put(self, request, id) -> Response:
         dog = get_object_or_404(Dog, id=id)
         serializer = DogSerializer(dog, data=request.data)
         if serializer.is_valid():
@@ -78,7 +79,7 @@ class DogDetail(APIView):
         operation_description="Удалить собаку по ID",
         responses={204: 'Собака успешно удалена'}
     )
-    def delete(self, request, id):
+    def delete(self, request, id) -> Response:
         dog = get_object_or_404(Dog, id=id)
         dog.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -98,7 +99,7 @@ class BreedList(APIView):
         operation_description="Получить список всех пород",
         responses={200: BreedSerializer(many=True)}
     )
-    def get(self, request):
+    def get(self, request) -> Response:
         breeds = Breed.objects.all()
         serializer = BreedSerializer(breeds, many=True)
         return Response(serializer.data)
@@ -108,7 +109,7 @@ class BreedList(APIView):
         request_body=BreedSerializer,
         responses={201: BreedSerializer}
     )
-    def post(self, request):
+    def post(self, request) -> Response:
         serializer = BreedSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -132,7 +133,7 @@ class BreedDetail(APIView):
         operation_description="Получить породу по ID",
         responses={200: BreedSerializer}
     )
-    def get(self, request, id):
+    def get(self, request, id) -> Response:
         breed = get_object_or_404(Breed, id=id)
         serializer = BreedSerializer(breed)
         return Response(serializer.data)
@@ -142,7 +143,7 @@ class BreedDetail(APIView):
         request_body=BreedSerializer,
         responses={200: BreedSerializer}
     )
-    def put(self, request, id):
+    def put(self, request, id) -> Response:
         breed = get_object_or_404(Breed, id=id)
         serializer = BreedSerializer(breed, data=request.data)
         if serializer.is_valid():
@@ -154,7 +155,7 @@ class BreedDetail(APIView):
         operation_description="Удалить породу по ID",
         responses={204: 'Порода успешно удалена'}
     )
-    def delete(self, request, id):
+    def delete(self, request, id) -> Response:
         breed = get_object_or_404(Breed, id=id)
         breed.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
